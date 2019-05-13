@@ -28,6 +28,14 @@ public class ConsumerController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    /**
+     * @PlayName queryById
+     * @Author guoqiang
+     * @Description //TODO
+     * @Date 2019-05-13 22:43
+     * @Param [id]
+     * @return cn.itcast.consumer.pojo.User
+     **/
     @RequestMapping("getbyid")
     public User queryById(@RequestParam String id){
         List<ServiceInstance> instances = discoveryClient.getInstances("user-service");
