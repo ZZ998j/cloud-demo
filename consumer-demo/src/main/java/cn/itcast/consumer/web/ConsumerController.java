@@ -41,6 +41,7 @@ public class ConsumerController {
         List<ServiceInstance> instances = discoveryClient.getInstances("user-service");
         ServiceInstance instance = instances.get(0);
         String url="http://"+instance.getHost()+":"+instance.getPort()+"/getUser?id="+id;
+        System.out.printf(url);
         User user= restTemplate.getForObject(url,User.class);
         return user;
     }
