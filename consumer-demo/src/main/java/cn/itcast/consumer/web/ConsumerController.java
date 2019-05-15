@@ -4,6 +4,7 @@ import cn.itcast.consumer.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,8 +26,11 @@ public class ConsumerController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private DiscoveryClient discoveryClient;
+
+//    @Autowired
+//    private RibbonLoadBalancerClient ribbonLoadBalancerClient;l
+//    @Autowired
+//    private DiscoveryClient discoveryClient;
 
     /**
      * @PlayName queryById
@@ -38,10 +42,15 @@ public class ConsumerController {
      **/
     @RequestMapping("getbyid")
     public User queryById(@RequestParam String id){
-        List<ServiceInstance> instances = discoveryClient.getInstances("user-service");
-        ServiceInstance instance = instances.get(0);
-        String url="http://"+instance.getHost()+":"+instance.getPort()+"/getUser?id="+id;
-        System.out.printf(url);
+//        List<ServiceInstance> instances = discoveryClient.getInstances("user-service");
+//        ServiceInstance instance = instances.get(0);
+//        String url="http://"+instance.getHost()+":"+instance.getPort()+"/getUser?id="+id;
+
+//        ServiceInstance choose = ribbonLoadBalancerClient.choose("user-service");
+//        String url="http://"+choose.getHost()+":"+choose.getPort()+"/getUser?id="+id;
+
+//        System.out.printf(url);
+        String url="http://getUser?id="+id;
         User user= restTemplate.getForObject(url,User.class);
         return user;
     }

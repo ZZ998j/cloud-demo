@@ -6,8 +6,9 @@ spring:
     name: eureka-server
 eureka:
   client:
+    register-with-eureka: false
     service-url:
-      defaultZone: http://127.0.0.1:10087/eureka,http://127.0.0.1:10088/eureka
+      defaultZone: http://20.48.5.1:10087/eureka,http://20.48.5.1:10088/eureka
   instance:
     hostname: 20.48.5.1
 #    prefer-ip-address: true
@@ -21,8 +22,9 @@ spring:
     name: eureka-server
 eureka:
   client:
+    register-with-eureka: false
     service-url:
-      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10088/eureka
+      defaultZone: http://20.48.5.1:10086/eureka,http://20.48.5.1:10088/eureka
   instance:
     hostname: 20.48.5.1
 #    prefer-ip-address: true
@@ -36,8 +38,9 @@ spring:
     name: eureka-server
 eureka:
   client:
+    register-with-eureka: false
     service-url:
-      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10087/eureka
+      defaultZone: http://20.48.5.1:10086/eureka,http://20.48.5.1:10087/eureka
   instance:
     hostname: 20.48.5.1
 #    prefer-ip-address: true
