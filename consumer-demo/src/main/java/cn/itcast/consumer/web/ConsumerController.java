@@ -2,9 +2,9 @@ package cn.itcast.consumer.web;
 
 import cn.itcast.consumer.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
+//import org.springframework.cloud.client.ServiceInstance;
+//import org.springframework.cloud.client.discovery.DiscoveryClient;
+//import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,7 +50,7 @@ public class ConsumerController {
 //        String url="http://"+choose.getHost()+":"+choose.getPort()+"/getUser?id="+id;
 
 //        System.out.printf(url);
-        String url="http://getUser?id="+id;
+        String url="http://user-service/getUser?id="+id;
         User user= restTemplate.getForObject(url,User.class);
         return user;
     }
