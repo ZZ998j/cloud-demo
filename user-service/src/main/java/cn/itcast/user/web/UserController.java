@@ -15,7 +15,12 @@ public class UserController {
 
     @RequestMapping("/getUser")
     public User getUser(@RequestParam String id){
-        return userService.getUser(id);
+        try {
+            return userService.getUser(id);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

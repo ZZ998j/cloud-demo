@@ -27,9 +27,12 @@ public class UserService {
      * @Param [id]
      * @return cn.itcast.user.pojo.User
      **/
-    public User getUser(String id){
-
+    public User getUser(String id) throws InterruptedException {
+        if(id.equals("2")){
+            throw new RuntimeException("抛出异常");
+        }
         User user=userMapper.selectByPrimaryKey(id);
+        Thread.sleep(2000);
         return user;
     }
 

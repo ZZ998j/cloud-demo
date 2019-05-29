@@ -24,7 +24,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("consumer")
-@DefaultProperties(defaultFallback = "queryByIdFallback")
+//@DefaultProperties(defaultFallback = "queryByIdFallback")
 public class ConsumerController {
 
     @Autowired
@@ -46,7 +46,10 @@ public class ConsumerController {
      **/
     @RequestMapping("getbyid")
     @HystrixCommand(fallbackMethod = "queryByIdFallback",commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000"),
+            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value="10"),
+            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value="10000"),
+            @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value="60")
     })
     public String queryById(@RequestParam String id){
 //        List<ServiceInstance> instances = discoveryClient.getInstances("user-service");
@@ -61,7 +64,7 @@ public class ConsumerController {
         String user= restTemplate.getForObject(url,String.class);
         return user;
     }
-    public String queryByIdFallback(Long id){
+    public String queryByIdFallback(String id){
         return "忙忙忙";
     }
 
