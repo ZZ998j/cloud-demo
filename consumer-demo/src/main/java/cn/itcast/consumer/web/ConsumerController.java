@@ -24,7 +24,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("consumer")
-//@DefaultProperties(defaultFallback = "queryByIdFallback")
+@DefaultProperties(defaultFallback = "queryByIdFallbackall")
 public class ConsumerController {
 
     @Autowired
@@ -45,13 +45,29 @@ public class ConsumerController {
      * @return cn.itcast.consumer.pojo.User
      **/
     @RequestMapping("getbyid")
-    @HystrixCommand(fallbackMethod = "queryByIdFallback",commandProperties = {
+    @HystrixCommand(
+//            fallbackMethod = "queryByIdFallback",
+            commandProperties = {
             @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000"),
             @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value="10"),
             @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value="10000"),
             @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value="60")
     })
     public String queryById(@RequestParam String id){
+
+        String url="http://user-service/getUser?id="+id;
+        String user= restTemplate.getForObject(url,String.class);
+        return user;
+    }
+    public String queryByIdFallback(String id){
+        return "忙忙忙";
+    }
+    public String queryByIdFallbackall(){
+        return "忙忙忙全局";
+    }
+
+}
+
 //        List<ServiceInstance> instances = discoveryClient.getInstances("user-service");
 //        ServiceInstance instance = instances.get(0);
 //        String url="http://"+instance.getHost()+":"+instance.getPort()+"/getUser?id="+id;
@@ -60,12 +76,3 @@ public class ConsumerController {
 //        String url="http://"+choose.getHost()+":"+choose.getPort()+"/getUser?id="+id;
 
 //        System.out.printf(url);
-        String url="http://user-service/getUser?id="+id;
-        String user= restTemplate.getForObject(url,String.class);
-        return user;
-    }
-    public String queryByIdFallback(String id){
-        return "忙忙忙";
-    }
-
-}
