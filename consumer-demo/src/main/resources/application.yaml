@@ -15,3 +15,12 @@ eureka:
 user-service:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+
+#hystrix:
+#  command:
+#    default:
+#      execution.isolation.thread.timeoutInMilliseconds: 3000
+#
+#    queryById:
+#      execution.isolation.thread.timeoutInMilliseconds: 3000

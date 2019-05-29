@@ -1,6 +1,9 @@
 package cn.itcast.consumer.web;
 
 import cn.itcast.consumer.pojo.User;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cloud.client.ServiceInstance;
 //import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -21,6 +24,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("consumer")
+@DefaultProperties(defaultFallback = "queryByIdFallback")
 public class ConsumerController {
 
     @Autowired
@@ -41,7 +45,10 @@ public class ConsumerController {
      * @return cn.itcast.consumer.pojo.User
      **/
     @RequestMapping("getbyid")
-    public User queryById(@RequestParam String id){
+    @HystrixCommand(fallbackMethod = "queryByIdFallback",commandProperties = {
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
+    })
+    public String queryById(@RequestParam String id){
 //        List<ServiceInstance> instances = discoveryClient.getInstances("user-service");
 //        ServiceInstance instance = instances.get(0);
 //        String url="http://"+instance.getHost()+":"+instance.getPort()+"/getUser?id="+id;
@@ -51,7 +58,11 @@ public class ConsumerController {
 
 //        System.out.printf(url);
         String url="http://user-service/getUser?id="+id;
-        User user= restTemplate.getForObject(url,User.class);
+        String user= restTemplate.getForObject(url,String.class);
         return user;
     }
+    public String queryByIdFallback(Long id){
+        return "忙忙忙";
+    }
+
 }
