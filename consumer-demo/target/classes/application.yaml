@@ -19,6 +19,7 @@ eureka:
 #    ConnectTimeout: 3000
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 ribbon:
+  ConnectionTimeOut: 1000
   ReadTimeout: 10000
   ConnectTimeout: 10000
   MaxAutoRetries: 0
@@ -35,8 +36,16 @@ feign:
         connectTimeout: 10000
         readTimeout: 60000
         loggerLevel: basic
-      hystrix:
-        enabled: true             #启用hystrix
+  hystrix:
+    enabled: true             #启用hystrix
+  compression:
+    request:
+      enabled: true   #开启请求压缩
+      mime-types: text/html,application/xml,application/json #压缩文件类型
+      min-request-size: 2048
+    response:
+      enabled: true   #开启响应压缩
+
 
 hystrix:
   command:

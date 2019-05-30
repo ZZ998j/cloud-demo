@@ -2,6 +2,9 @@ package cn.itcast.consumer.web;
 
 import cn.itcast.consumer.client.UserClient;
 import cn.itcast.consumer.pojo.User;
+//import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -26,7 +29,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("consumer")
-@DefaultProperties(defaultFallback = "queryByIdFallbackall")
+//@DefaultProperties(defaultFallback = "queryByIdFallbackall")
 public class ConsumerController {
 
 //    @Autowired
@@ -49,15 +52,16 @@ public class ConsumerController {
      * @Param [id]
      * @return cn.itcast.consumer.pojo.User
      **/
-    @RequestMapping("getbyid")
-    @HystrixCommand(
+
+    /*@HystrixCommand(
 //            fallbackMethod = "queryByIdFallback",
             commandProperties = {
             @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="5000"),
             @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value="10"),
             @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value="5000"),
             @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value="60")
-    })
+    })*/
+    @RequestMapping("getbyid")
     public User queryById(@RequestParam String id){
 
 //        String url="http://user-service/getUser?id="+id;
