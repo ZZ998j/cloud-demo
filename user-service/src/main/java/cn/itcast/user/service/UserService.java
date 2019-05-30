@@ -31,8 +31,8 @@ public class UserService {
         if(id.equals("2")){
             throw new RuntimeException("抛出异常");
         }
-        User user=userMapper.selectByPrimaryKey(id);
         Thread.sleep(2000);
+        User user=userMapper.selectByPrimaryKey(id);
         return user;
     }
 

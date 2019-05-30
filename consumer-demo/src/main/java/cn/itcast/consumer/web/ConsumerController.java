@@ -1,5 +1,6 @@
 package cn.itcast.consumer.web;
 
+import cn.itcast.consumer.client.UserClient;
 import cn.itcast.consumer.pojo.User;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cloud.client.ServiceInstance;
 //import org.springframework.cloud.client.discovery.DiscoveryClient;
 //import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +29,11 @@ import java.util.List;
 @DefaultProperties(defaultFallback = "queryByIdFallbackall")
 public class ConsumerController {
 
+//    @Autowired
+//    private RestTemplate restTemplate;
+
     @Autowired
-    private RestTemplate restTemplate;
+    private UserClient userClient;
 
 
 //    @Autowired
@@ -48,22 +53,35 @@ public class ConsumerController {
     @HystrixCommand(
 //            fallbackMethod = "queryByIdFallback",
             commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000"),
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="5000"),
             @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value="10"),
-            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value="10000"),
+            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value="5000"),
             @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value="60")
     })
-    public String queryById(@RequestParam String id){
+    public User queryById(@RequestParam String id){
 
-        String url="http://user-service/getUser?id="+id;
-        String user= restTemplate.getForObject(url,String.class);
-        return user;
+//        String url="http://user-service/getUser?id="+id;
+//        User user= restTemplate.getForObject(url,User.class);
+        User user3=userClient.queryById(id);
+//        try{
+//            user3=userClient.queryById(id);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+        return user3;
     }
+
+
+
+
     public String queryByIdFallback(String id){
         return "忙忙忙";
     }
-    public String queryByIdFallbackall(){
-        return "忙忙忙全局";
+    public User queryByIdFallbackall(){
+        User user2=new User();
+        user2.setUserId("444");
+        return user2;
     }
 
 }
