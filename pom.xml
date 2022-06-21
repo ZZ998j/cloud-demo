@@ -26,7 +26,7 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <mapper.ty.version>2.0.3</mapper.ty.version>
-        <mysql-version>8.0.16</mysql-version>
+        <mysql-version>8.0.28</mysql-version>
         <paperHelper.start.version>1.2.10</paperHelper.start.version>
     </properties>
 
